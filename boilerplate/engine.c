@@ -470,15 +470,14 @@ int child_fn(void *arg)
     }
 
     /* Execute the requested command */
-    char *argv[] = { cfg->command, NULL };
+    char *argv[] = { "/bin/sh", "-c", cfg->command, NULL };
     char *envp[] = {
         "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
         "HOME=/root",
         "TERM=xterm",
         NULL
     };
-
-    execve(cfg->command, argv, envp);
+    execve("/bin/sh", argv, envp);
     perror("child_fn: execve");
     return 1;
 }
