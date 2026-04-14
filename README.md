@@ -205,7 +205,7 @@ Container `alpha` was started with a shell loop command. After a 4-second sleep,
 
 `engine ps` shows container `alpha` (PID 9095) in `running` state. `engine logs alpha` is then issued — both commands are sent over the UNIX domain socket control channel (`/tmp/mini_runtime.sock`) and the supervisor responds correctly. This demonstrates the CLI-to-supervisor IPC path (Path B) working.
 
-![Screenshot 4](screenshots%204.png)
+![Screenshot 4](Screenshots%204.png)
 
 ---
 
@@ -218,7 +218,7 @@ Container `alpha` was started with a shell loop command. After a 4-second sleep,
 
 `engine ps` at the bottom confirms `memtest` (PID 13181) is in state `killed` with exit code 137 (128 + SIGKILL), reflecting the hard-limit termination in supervisor metadata.
 
-![Screenshots 5 and 6](screenshots%205%20and%206.png)
+![Screenshots 5 and 6](Screenshots%205%20and%206.png)
 
 ---
 
@@ -226,7 +226,7 @@ Container `alpha` was started with a shell loop command. After a 4-second sleep,
 
 Two CPU-bound containers were launched concurrently: `high_prio` (nice=-5) and `low_prio` (nice=10). The `dmesg` output shows both containers being registered and completing in interleaved fashion, confirming concurrent execution under the Linux CFS scheduler. `engine ps` shows both tracked with exit code 0. The kernel registration timestamps show `high_prio` (pid=14299) receiving more CPU time due to its lower nice value compared to `low_prio` (pid=14314).
 
-![Screenshot 7](screenshots%207.png)
+![Screenshot 7](Screenshots%207.png)
 
 ---
 
@@ -234,7 +234,7 @@ Two CPU-bound containers were launched concurrently: `high_prio` (nice=-5) and `
 
 `sudo rmmod monitor` succeeds after the supervisor releases `/dev/container_monitor`. `lsmod | grep monitor` returns nothing confirming the module is fully unloaded. `sudo dmesg | tail -10` shows `[container_monitor] Module unloaded.` as the final kernel log entry, confirming all kernel list entries were freed cleanly. No zombie processes were found during shutdown.
 
-![Screenshot 8](screenshots%208.png)
+![Screenshot 8](Screenshots%208.png)
 
 ---
 
