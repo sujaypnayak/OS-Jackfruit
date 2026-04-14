@@ -189,7 +189,7 @@ After `del_timer_sync` (which guarantees the timer callback has fully stopped be
 
 Two containers (`alpha` and `beta`) launched under a single supervisor. The first `engine ps` shows `alpha` running (PID 8696, started 14:29:42). After launching `beta`, the second `engine ps` shows both `alpha` (PID 8696) and `beta` (PID 8710) in `running` state simultaneously under the same supervisor process.
 
-![Screenshots 1 and 2](image1.png)
+![Screenshots 1 and 2](screenshot 1 and 2.png)
 
 ---
 
@@ -197,7 +197,7 @@ Two containers (`alpha` and `beta`) launched under a single supervisor. The firs
 
 Container `alpha` was started with a shell loop command. After a 4-second sleep, `cat logs/alpha.log` shows multiple `hello from alpha` lines captured through the producer-consumer logging pipeline and written to a persistent per-container log file.
 
-![Screenshot 3](image2.png)
+![Screenshot 3](screenshot 3.png)
 
 ---
 
@@ -205,7 +205,7 @@ Container `alpha` was started with a shell loop command. After a 4-second sleep,
 
 `engine ps` shows container `alpha` (PID 9095) in `running` state. `engine logs alpha` is then issued — both commands are sent over the UNIX domain socket control channel (`/tmp/mini_runtime.sock`) and the supervisor responds correctly. This demonstrates the CLI-to-supervisor IPC path (Path B) working.
 
-![Screenshot 4](image3.png)
+![Screenshot 4](screenshot 4.png)
 
 ---
 
@@ -218,7 +218,7 @@ Container `alpha` was started with a shell loop command. After a 4-second sleep,
 
 `engine ps` at the bottom confirms `memtest` (PID 13181) is in state `killed` with exit code 137 (128 + SIGKILL), reflecting the hard-limit termination in supervisor metadata.
 
-![Screenshots 5 and 6](image4.png)
+![Screenshots 5 and 6](screenshot 5 and 6.png)
 
 ---
 
@@ -226,7 +226,7 @@ Container `alpha` was started with a shell loop command. After a 4-second sleep,
 
 Two CPU-bound containers were launched concurrently: `high_prio` (nice=-5) and `low_prio` (nice=10). The `dmesg` output shows both containers being registered and completing in interleaved fashion, confirming concurrent execution under the Linux CFS scheduler. `engine ps` shows both tracked with exit code 0. The kernel registration timestamps show `high_prio` (pid=14299) receiving more CPU time due to its lower nice value compared to `low_prio` (pid=14314).
 
-![Screenshot 7](image5.png)
+![Screenshot 7](screenshot 7.png)
 
 ---
 
@@ -234,7 +234,7 @@ Two CPU-bound containers were launched concurrently: `high_prio` (nice=-5) and `
 
 `sudo rmmod monitor` succeeds after the supervisor releases `/dev/container_monitor`. `lsmod | grep monitor` returns nothing confirming the module is fully unloaded. `sudo dmesg | tail -10` shows `[container_monitor] Module unloaded.` as the final kernel log entry, confirming all kernel list entries were freed cleanly. No zombie processes were found during shutdown.
 
-![Screenshot 8](image6.png)
+![Screenshot 8](screenshot 8.png)
 
 ---
 
