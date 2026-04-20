@@ -470,15 +470,27 @@ int child_fn(void *arg)
     }
 
     /* Execute the requested command */
-    char *argv[] = { "/bin/sh", "-c", cfg->command, NULL };
     char *envp[] = {
         "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
         "HOME=/root",
         "TERM=xterm",
         NULL
     };
-    execve("/bin/sh", argv, envp);
-    perror("child_fn: execve");
+    
+    /*
+     * If command is a simple absolute path with no spaces, execute it directly.
+     * Otherwise, fall back to /bin/sh -c for shell commands and commands with args.
+     */
+    if (cfg->command[0] == '/' && strchr(cfg->command, ' ') == NULL) {
+        char *direct_argv[] = { cfg->command, NULL };
+        execve(cfg->command, direct_argv, envp);
+        perror("child_fn: direct execve");
+    }
+    
+    /* Fallback: run through shell */
+    char *shell_argv[] = { "/bin/sh", "-c", cfg->command, NULL };
+    execve("/bin/sh", shell_argv, envp);
+    perror("child_fn: shell execve");
     return 1;
 }
 
