@@ -58,6 +58,7 @@ cp -a ./rootfs-base ./rootfs-beta
 ### 5. Start Containers
 
 ```bash
+sudo ./engine start alpha ./rootfs-alpha "while true; do echo hello from alpha; sleep 1; done"
 sudo ./engine start alpha ../rootfs-alpha /bin/sh --soft-mib 48 --hard-mib 80
 sudo ./engine start beta ../rootfs-beta /bin/sh --soft-mib 64 --hard-mib 96
 ```
